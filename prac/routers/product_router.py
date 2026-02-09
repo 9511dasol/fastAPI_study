@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from database import get_db
 from prac.schemas.product import ProductCreate, ProductDetailResponse
-from prac.services.product import product_service
+from fastapi_basic.prac.services.product_service import product_service
 
 router = APIRouter(prefix="/products", tags=["categories"])
 
