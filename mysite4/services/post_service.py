@@ -12,6 +12,7 @@ class PostService:
             new_post = Post(**data)
 
             # 레포지토리에 저장을 요청한다. (아직 DB에 확정된 상태는 아님)
+            # 레포지토리에 save 라는 메서드에 db 세션 및 new_post 정보를 함께 보낸다
             post_repository.save(db, new_post)
 
             # 서비스 계층에서 트랜잭션을 최종 확정한다.
