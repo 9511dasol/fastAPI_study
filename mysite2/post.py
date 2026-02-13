@@ -1,5 +1,5 @@
+# mysite2/post.py
 from pydantic import BaseModel
-# 게시글 데이터를 검증하고 구조화하기 위해
 
 
 # 게시글 생성을 위한 데이터 모델

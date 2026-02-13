@@ -1,19 +1,7 @@
+# mysite/post_api.py
+
 from fastapi import APIRouter
 from .post import Post
-from pydantic import BaseModel
-from fastapi import Form
-from fastapi import Body
-
-
-class PostCreate(BaseModel):
-    title: str
-    content: str
-
-
-class AuthRequest(BaseModel):
-    id: str
-    pw: str
-
 
 router = APIRouter(prefix="/posts", tags=["Post"])
 
@@ -26,23 +14,17 @@ posts.append(Post(1, "기본 제목", "기본 내용"))
 post_id = 1
 
 
-@router.post("/create")
-def create_post(buc: PostCreate = Body(...)):
-    # print(f"받은 데이터: title={title}, content={content}")
-    # 식별자 1 증가
-    last_id = max([p.id for p in posts], default=0) + 1
-    # 새로운 게시글 객체 생성
-    post = Post(last_id, buc.title, buc.content)
+@router.post("")
+def create_post():
+    global post_id
+    post_id += 1
+
+    post = Post(post_id, "제목", "내용")
+
     # 리스트에 추가
     posts.append(post)
 
-    return {"status": "success", "post": {"id": last_id, "title": buc.title}}
-
-
-@router.post("/auth")
-def confirm_Auth(request: AuthRequest = Body(...)):  # Form(...) → Body(...)
-    # print(request.id, request.pw)
-    return {"status": "success"}
+    return post
 
 
 @router.get("")
@@ -58,17 +40,17 @@ def read_post_by_id(id: int):
         # 객체의 식별자와 입력받은 식별자가 일치하는지 확인
         if post.id == id:
             return post
-    return "찾는 정보가 없습니다."
+    return None
 
 
 @router.put("/{id}")
-def update_post(id: int, modi: PostCreate = Body(...)):
+def update_post(id: int):
     for post in posts:
         if post.id == id:
             # 객체의 속성 값 변경
-            post.title = modi.title
-            post.content = modi.content
-            return "수정됐습니다."
+            post.title = "수정된 제목"
+            post.content = "수정된 내용"
+            return post
     return None
 
 
