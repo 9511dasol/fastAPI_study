@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 from mysite.post_api import router as post_api
-from mysite2.post_api import router as pydantic_router
+from mysite3.routers.post_router import router as mvc_router
 
 app = FastAPI()
 
-routers = [post_api, pydantic_router]
+routers = [post_api, mvc_router]
 
 for router in routers:
     app.include_router(router)
